@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:store/components/product_card.dart';
+import 'package:store/components/search_text_feild.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Store",
             style: TextStyle(
                 color: Color(0xff007AFF),
@@ -32,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                   "assets/icons/cart.svg",
                   width: 37,
                   height: 37,
-                  color: Color(0xff757575),
+                  color: const Color(0xff757575),
                 ))
           ],
         ),
@@ -40,33 +42,8 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(top: 38, left: 15, right: 15),
           child: Column(
             children: [
-              Card(
-                elevation: 9,
-                shadowColor: Color.fromARGB(255, 165, 165, 216),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40)),
-                color: Color(0xffffffff),
-                child: TextField(
-                  cursorColor: Color(0xff007AFF),
-                  decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.only(left: 20, top: 15, bottom: 15),
-                      hintStyle: TextStyle(
-                        color: Color.fromARGB(168, 117, 117, 117),
-                        fontFamily: "Poppins Medium",
-                        fontSize: 17,
-                      ),
-                      hintText: "Search",
-                      suffixIcon: SvgPicture.asset(
-                        "assets/icons/search-line.svg",
-                        color: Color(0xff8E8E93),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      )),
-                ),
-              ),
-              SizedBox(
+              const SearchTextField(),
+              const SizedBox(
                 height: 40,
               ),
               SizedBox(
@@ -89,8 +66,8 @@ class _HomePageState extends State<HomePage> {
                             "${types[index]}",
                             style: TextStyle(
                                 color: index == slect
-                                    ? Color(0xff007AFF)
-                                    : Color(0xff000000),
+                                    ? const Color(0xff007AFF)
+                                    : const Color(0xff000000),
                                 fontWeight: FontWeight.w100,
                                 fontSize: 12,
                                 fontFamily: "Poppins Medium"),
@@ -107,9 +84,22 @@ class _HomePageState extends State<HomePage> {
                       "assets/icons/filter.svg",
                       width: 25,
                       height: 25,
-                      color: Color(0xff757575),
+                      color: const Color(0xff757575),
                     )),
-              )
+              ),
+              Expanded(
+                  child: GridView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: 6,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 29,
+                    crossAxisSpacing: 15,
+                    mainAxisExtent: 209),
+                itemBuilder: (context, index) {
+                  return const ProductCard();
+                },
+              ))
             ],
           ),
         ));

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:store/pages/home_page.dart';
 import 'package:store/pages/menu_tab_bar.dart';
 
 void main() {
@@ -13,10 +12,11 @@ class Store extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          scaffoldBackgroundColor: Color(0xffffffff),
-          appBarTheme: AppBarTheme(color: Color(0xffffffff))),
+          scaffoldBackgroundColor: const Color(0xffffffff),
+          appBarTheme: const AppBarTheme(
+              color: Color(0xffffffff), surfaceTintColor: Color(0xffffffff))),
       debugShowCheckedModeBanner: false,
-      home: MenuTabBar(),
+      home: const MenuTabBar(),
     );
   }
 }

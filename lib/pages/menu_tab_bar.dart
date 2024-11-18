@@ -42,7 +42,7 @@ class _MenuTabBarState extends State<MenuTabBar>
       iconPath,
       width: 35,
       height: 35,
-      color: isSelct ? Color(0xff0D99FF) : Color(0xff757575),
+      color: isSelct ? const Color(0xff0D99FF) : const Color(0xff757575),
     );
   }
 
@@ -58,7 +58,7 @@ class _MenuTabBarState extends State<MenuTabBar>
   Widget build(BuildContext context) {
     return Scaffold(
       body: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: tabController,
         children: pages,
       ),
@@ -70,7 +70,7 @@ class _MenuTabBarState extends State<MenuTabBar>
           });
         },
         selectedIndex: selectedIndex,
-        height: 55,
+        height: 65,
         indicatorColor: const Color(0xffffffff),
         backgroundColor: const Color(0xffffffff),
         destinations: pagesMenu(),
