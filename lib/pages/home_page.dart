@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
                 onPressed: () {},
                 icon: SvgPicture.asset(
-                  "assets/fonts/icons/cart.svg",
+                  "assets/icons/cart.svg",
                   width: 37,
                   height: 37,
                   color: Color(0xff757575),
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       hintText: "Search",
                       suffixIcon: SvgPicture.asset(
-                        "assets/fonts/icons/search-line.svg",
+                        "assets/icons/search-line.svg",
                         color: Color(0xff8E8E93),
                       ),
                       border: OutlineInputBorder(
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                 child: IconButton(
                     onPressed: () {},
                     icon: SvgPicture.asset(
-                      "assets/fonts/icons/filter.svg",
+                      "assets/icons/filter.svg",
                       width: 25,
                       height: 25,
                       color: Color(0xff757575),
