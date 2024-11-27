@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:store/components/product_card.dart';
 import 'package:store/components/search_text_feild.dart';
+import 'package:store/models/product.dart';
+import 'package:store/services/products_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,8 +14,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int slect = 0;
+  Future<List<Product>>? products_list;
 
   List<String> types = ["Laptops", "PC Components", "Mouses", "Keyboards"];
+  @override
+  void initState() {
+    products_list = ProductsService().getProducts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,18 +96,36 @@ class _HomePageState extends State<HomePage> {
                     )),
               ),
               Expanded(
-                  child: GridView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: 6,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 29,
-                    crossAxisSpacing: 15,
-                    mainAxisExtent: 209),
-                itemBuilder: (context, index) {
-                  return const ProductCard();
-                },
-              ))
+                child: FutureBuilder<List<Product>>(
+                  future: products_list,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                          child: CircularProgressIndicator(
+                        color: Color(0xff007AFF),
+                      ));
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text("Error: ${snapshot.error}"));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return Center(child: Text("No Products Found"));
+                    } else {
+                      return GridView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: snapshot.data!.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 29,
+                                crossAxisSpacing: 15,
+                                mainAxisExtent: 209),
+                        itemBuilder: (context, index) {
+                          return ProductCard(product: snapshot.data![index]);
+                        },
+                      );
+                    }
+                  },
+                ),
+              )
             ],
           ),
         ));

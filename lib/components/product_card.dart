@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:store/models/product.dart';
 
 class ProductCard extends StatelessWidget {
+  final Product product;
   const ProductCard({
-    super.key,
+    super.key, required this.product,
   });
 
   @override
@@ -21,14 +23,14 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Center(
-            child: Image.asset(
-              "assets/images/product.png",
+            child: Image.network(
+              product.imageUrl,
               width: 160,
               height: 100,
             ),
           ),
-          const Text(
-            "MSI Cyborg 15 A13",
+           Text(
+            product.name,
             style: TextStyle(
                 color: Color(0xff000000),
                 fontSize: 12,
@@ -52,7 +54,7 @@ class ProductCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("1,350.000 IQD",
+              Text("${product.price} IQD",
                   style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 13,
