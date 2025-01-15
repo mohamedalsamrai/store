@@ -5,7 +5,8 @@ import 'package:store/models/product.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
   const ProductCard({
-    super.key, required this.product,
+    super.key,
+    required this.product,
   });
 
   @override
@@ -29,9 +30,9 @@ class ProductCard extends StatelessWidget {
               height: 100,
             ),
           ),
-           Text(
+          Text(
             product.name,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Color(0xff000000),
                 fontSize: 12,
                 fontWeight: FontWeight.w500),
@@ -47,6 +48,7 @@ class ProductCard extends StatelessWidget {
                 return const Icon(
                   Icons.star,
                   size: 15,
+                  color: Colors.amber,
                 );
               },
             ),
@@ -55,7 +57,7 @@ class ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("${product.price} IQD",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xff000000),
                       fontSize: 13,
                       fontWeight: FontWeight.bold)),

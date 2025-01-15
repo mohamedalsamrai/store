@@ -1,7 +1,11 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:store/components/filter_card.dart';
 import 'package:store/components/product_card.dart';
 import 'package:store/components/search_text_feild.dart';
+import 'package:store/components/price_filter.dart';
 import 'package:store/models/product.dart';
 import 'package:store/services/products_service.dart';
 
@@ -14,12 +18,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int slect = 0;
-  Future<List<Product>>? products_list;
+  
+  Future<List<Product>>? productslist;
 
   List<String> types = ["Laptops", "PC Components", "Mouses", "Keyboards"];
+
   @override
   void initState() {
-    products_list = ProductsService().getProducts();
+    productslist = ProductsService().getProducts(types[0]);
     super.initState();
   }
 
@@ -68,10 +74,12 @@ class _HomePageState extends State<HomePage> {
                                   WidgetStatePropertyAll(Colors.grey[300])),
                           onPressed: () {
                             slect = index;
+                            productslist =
+                                ProductsService().getProducts(types[index]);
                             setState(() {});
                           },
                           child: Text(
-                            "${types[index]}",
+                            types[index],
                             style: TextStyle(
                                 color: index == slect
                                     ? const Color(0xff007AFF)
@@ -87,7 +95,84 @@ class _HomePageState extends State<HomePage> {
               Align(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showModalBottomSheet(
+                        useSafeArea: true,
+                        isScrollControlled: true,
+                        clipBehavior: Clip.antiAlias,
+                        backgroundColor: const Color(0xFFF4F3F8),
+                        context: context,
+                        builder: (context) {
+                          return SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 20,
+                                  left: 10,
+                                  right: 10,
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Spacer(),
+                                      const Text(
+                                        "Filter",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins Medium',
+                                            fontSize: 21,
+                                            color: Color(0xff000000)),
+                                      ),
+                                      const Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/icons/cross.svg"),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const FilterCard(
+                                    title: 'Category',
+                                    buttomName: 'View All  >',
+                                  ),
+                                  const FilterCard(
+                                      title: "Order", buttomName: 'Select  >'),
+                                  const PriceFilter(),
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xff007AFF)),
+                                      onPressed: () {},
+                                      child: const SizedBox(
+                                        height: 50,
+                                        width: double.infinity,
+                                        child: Center(
+                                          child: Text(
+                                            "Apply",
+                                            style: TextStyle(
+                                                color: Color(0xffffffff),
+                                                fontSize: 18,
+                                                fontFamily: 'Poppins Medium'),
+                                          ),
+                                        ),
+                                      )),
+                                  const SizedBox(
+                                    height: 10,
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                     icon: SvgPicture.asset(
                       "assets/icons/filter.svg",
                       width: 25,
@@ -97,17 +182,17 @@ class _HomePageState extends State<HomePage> {
               ),
               Expanded(
                 child: FutureBuilder<List<Product>>(
-                  future: products_list,
+                  future: productslist,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                           child: CircularProgressIndicator(
                         color: Color(0xff007AFF),
                       ));
                     } else if (snapshot.hasError) {
                       return Center(child: Text("Error: ${snapshot.error}"));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(child: Text("No Products Found"));
+                      return const Center(child: Text("No Products Found"));
                     } else {
                       return GridView.builder(
                         physics: const BouncingScrollPhysics(),

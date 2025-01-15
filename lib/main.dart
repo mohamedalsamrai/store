@@ -12,6 +12,7 @@ class Store extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+          colorSchemeSeed: Color(0xff007AFF),
           scaffoldBackgroundColor: const Color(0xffffffff),
           appBarTheme: const AppBarTheme(
               color: Color(0xffffffff), surfaceTintColor: Color(0xffffffff))),
